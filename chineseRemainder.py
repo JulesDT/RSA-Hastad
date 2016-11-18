@@ -4,17 +4,16 @@ from Crypto.PublicKey import RSA
 from base64 import b64decode
 
 if (len(sys.argv)<7):
-    print "\t\n\nArg error: python chineseRemainder.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64]\n\n"
+    print "\t\n\nArg error: python chineseRemainder.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64] [-v/--verbose]\n\n"
     exit()
 
-print "\n\n"
+print "\n"
 
 print "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 print "\t   RSA Chinese Remainder Attack   "
 print "\t         JulesDT -- 2016          "
 print "\t         License GNU/GPL          "
 print "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-print "\n\n"
 
 
 def chinese_remainder(n, a):
@@ -56,49 +55,55 @@ def find_invpow(x,n):
             return mid
     return mid + 1
 
-def parseC(argv, index):
+def parseC(argv, index, verbose):
     import string
     file = open(argv[index],'r')
-    cmd = ''.join(argv)
+    cmd = ' '.join(argv)
     fileInput = ''.join(file.readlines()).strip()
     if '--decimal' in cmd:
-        print "##"
-        print "##",fileInput
-        print "## Considered as decimal input"
-        print "##"
+        if verbose:
+            print "##"
+            print "##",fileInput
+            print "## Considered as decimal input"
+            print "##"
         return long(fileInput)
     elif '--hex' in cmd:
-        print "##"
-        print "##",fileInput
-        print "## Considered as hexadecimal input"
-        print "##"
+        if verbose:
+            print "##"
+            print "##",fileInput
+            print "## Considered as hexadecimal input"
+            print "##"
         return long(fileInput,16)
     elif '--b64' in cmd:
-        print "##"
-        print "##",fileInput
-        print "## Considered as base64 input"
-        print "##"
+        if verbose:
+            print "##"
+            print "##",fileInput
+            print "## Considered as base64 input"
+            print "##"
         return long(binascii.hexlify(binascii.a2b_base64(fileInput)),16)
     else:
         try:
             fileInput = long(fileInput)
-            print "##"
-            print "##",fileInput
-            print "## Guessed as decimal input"
-            print "##"
+            if verbose:
+                print "##"
+                print "##",fileInput
+                print "## Guessed as decimal input"
+                print "##"
             return long(fileInput)
         except ValueError:
             if all(c in string.hexdigits for c in fileInput):
-                print "##"
-                print "##",fileInput
-                print "## Guessed as hexadecimal input"
-                print "##"
+                if verbose:
+                    print "##"
+                    print "##",fileInput
+                    print "## Guessed as hexadecimal input"
+                    print "##"
                 return long(fileInput,16)
             else:
-                print "##"
-                print "##",fileInput
-                print "## Guessed as base64 input"
-                print "##"
+                if verbose:
+                    print "##"
+                    print "##",fileInput
+                    print "## Guessed as base64 input"
+                    print "##"
                 return long(binascii.hexlify(binascii.a2b_base64(fileInput)),16)
             pass
 
@@ -116,14 +121,18 @@ def parseN(argv,index):
 
 if __name__ == '__main__':
     e = 3
-
+    cmd = ' '.join(sys.argv)
+    if '-v' in cmd or '--verbose' in cmd:
+        verbose = True
+    else:
+        verbose = False
     n0 = parseN(sys.argv,1)
     n1 = parseN(sys.argv,2)
     n2 = parseN(sys.argv,3)
     
-    c0 = parseC(sys.argv,4)
-    c1 = parseC(sys.argv,5)
-    c2 = parseC(sys.argv,6)
+    c0 = parseC(sys.argv,4,verbose)
+    c1 = parseC(sys.argv,5,verbose)
+    c2 = parseC(sys.argv,6,verbose)
     n = [n0,n1,n2]
     a = [c0,c1,c2]
 
