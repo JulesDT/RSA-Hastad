@@ -1,12 +1,12 @@
 # RSA-Chinese-Remainder
-Little python tool to use the Chinese Remainder theorem attack on RSA under precise conditions.
+Little python tool to use the Chinese Remainder theorem attack on RSA under precise conditions. (Known as Hastad attack or Broadcast Attack)
 
 Three identical messages must be encrypted with three different RSA public keys having all the same public exponent which must be equal to 3.
 
 # Usage
 
 ```
-python chineseRemainder.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64] [-v/--verbose]
+python rsaHastad.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64] [-v/--verbose]
 ```
 
 ```

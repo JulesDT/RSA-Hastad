@@ -4,13 +4,13 @@ from Crypto.PublicKey import RSA
 from base64 import b64decode
 
 if (len(sys.argv)<7):
-    print "\t\n\nArg error: python chineseRemainder.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64] [-v/--verbose]\n\n"
+    print "\t\n\nArg error: python rsaHastad.py <n0 File> <n1 File> <n2 File> <c0 File> <c1 File> <c2 File> [--decimal/--hex/--b64] [-v/--verbose]\n\n"
     exit()
 
 print "\n"
 
 print "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-print "\t   RSA Chinese Remainder Attack   "
+print "\t        RSA Hastad Attack         "
 print "\t         JulesDT -- 2016          "
 print "\t         License GNU/GPL          "
 print "\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -38,9 +38,6 @@ def mul_inv(a, b):
     return x1
 
 def find_invpow(x,n):
-    """Finds the integer component of the n'th root of x,
-    an integer such that y ** n <= x < (y + 1) ** n.
-    """
     high = 1
     while high ** n < x:
         high *= 2
